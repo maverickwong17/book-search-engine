@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import { saveBook, searchGoogleBooks } from '../utils/API';
+import { searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { SAVE_BOOK } from '../utils/mutations'
 
 const SearchBooks = () => {
@@ -17,7 +17,7 @@ const SearchBooks = () => {
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
 
-  const [savedBook, {error, data}]= useMutation(SAVE_BOOK)
+  const [savedBook, {error}]= useMutation(SAVE_BOOK)
 
   useEffect(() => {
     return () => saveBookIds(savedBookIds);
@@ -72,6 +72,7 @@ const SearchBooks = () => {
       
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
+      console.log(savedBookIds)
     } catch (err) {
       console.error(err);
     }
